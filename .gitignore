@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+# togetter to txt convert
+# using : python togetter2txt id
+from BeautifulSoup import BeautifulSoup
+import urllib
+import sys
+
+def togetter2txt(id):
+    f = urllib.urlopen("http://togetter.com/li/"+id)
+    data = f.read()
+    soup = BeautifulSoup(data)
+    for div in soup.findAll("div"):
+        if div.has_key('class'):
+            if div['class'] == "list_body":
+                print div.h5.a.string +":",
+                for a in div.h4.contents:
+                    print a,
+                print ""    
+                
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        # for test
+        id = "5299"
+    else:
+        id = sys.argv[1]
+    togetter2txt(id)
